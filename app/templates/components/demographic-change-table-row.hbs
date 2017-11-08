@@ -60,9 +60,25 @@
   {{/if}}
 {{else}}
 <td>{{title}}</td>
-<td>{{if data2.sum (numeral-format data2.sum) 'n/a'}}</td>
+<td>
+  {{#if data2.sum}}
+   {{numeral-format data2.sum}}
+      {{else if (eq data2.sum 0)}}
+        0
+      {{else}}
+      n/a
+  {{/if}}
+</td>
 <td>&nbsp;</td>
-<td>&nbsp;</td>
+<td>
+  {{#if data2.sum}}
+   {{numeral-format data.sum}}
+      {{else if (eq data2.sum 0)}}
+        {{data.sum}}
+      {{else}}
+      n/a
+  {{/if}}
+</td>
 <td>&nbsp;</td>
 <td>&nbsp;</td>
 {{#if reliability}}

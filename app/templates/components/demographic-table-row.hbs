@@ -56,7 +56,7 @@
     <td class="cell-border-left">{{numeral-format data.sum}}</td>
     {{#if reliability}}
     <td>{{numeral-format data.m}}</td>
-    <td>&nbsp;</td>
+    <td>{{numeral-format data.cv}}</td>
     {{/if}}
     <td>&nbsp;</td>
     {{#if reliability}}
@@ -66,7 +66,7 @@
       <td class="cell-border-left">{{numeral-format data.comparison_sum}}</td>
     {{#if reliability}}
     <td>{{numeral-format data.comparison_m}}</td>
-    <td>&nbsp;</td>
+    <td>{{numeral-format data.comparison_cv}}</td>
     {{/if}}
     <td>&nbsp;</td>
     {{#if reliability}}
