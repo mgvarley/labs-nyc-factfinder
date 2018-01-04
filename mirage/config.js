@@ -1,6 +1,7 @@
 import config from '../config/environment';
 import SAMPLE_SUPPORT_SERVICE_RESPONSE from './sample-responses/support-service-1';
 import SAMPLE_REPORT_DEMOGRAPHIC from './sample-responses/sample-report-demographic-1';
+import LIST_MENU_RESPONSE from './sample-responses/list-menu-1';
 
 const { SupportServiceHost } = config;
 
@@ -21,6 +22,14 @@ export default function() {
     return SAMPLE_SUPPORT_SERVICE_RESPONSE;
   });
 
+  this.post('selection', () => {
+    return SAMPLE_SUPPORT_SERVICE_RESPONSE;
+  });
+
+  this.get('https://planninglabs.carto.com/api/v2/**', () => {
+    return LIST_MENU_RESPONSE;
+  });
+
   this.post('https://planninglabs.carto.com/api/v2/sql', (schema, request) => {
     console.log(request);
     return SAMPLE_REPORT_DEMOGRAPHIC;
@@ -30,6 +39,7 @@ export default function() {
     return {};
   });
 
+  this.passthrough('https://api.mapbox.com/**');
   /*
     Shorthand cheatsheet:
 
