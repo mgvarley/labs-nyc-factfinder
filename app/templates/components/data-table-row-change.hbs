@@ -30,25 +30,27 @@
   </td>
 
   {{!-- OLD --}}
-  <td class="cell-border-left {{if (eq data2.sum 0) 'medium-gray'}} {{if (gte data2.cv 20) 'medium-gray'}}">{{selectedEarlySum}}</td>{{!-- previous dataset sum--}}
+  <td class="cell-border-left {{if (eq data2.sum 0) 'medium-gray'}} {{if (gte data2.cv 20) 'medium-gray'}}">
+    {{format-as data2.sum data2.rowconfig}}
+  </td>{{!-- previous dataset sum--}}
   {{#if reliability}}
-    <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{selectedEarlySumM}}</td>
-    <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{selectedEarlySumCV}}</td>
+    <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{format-as data2.m data2.rowconfig.decimal}}</td>
+    <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{format-as data2.cv data2.rowconfig.decimal}}</td>
   {{/if}}
-  <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{selectedEarlyPercent}}</td>{{!-- previous dataset percent --}}
+  <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{decimal-one-place-percent data2.percent}}</td>{{!-- previous dataset percent --}}
   {{#if reliability}}
-    <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{data2.selectedPercentM}}</td>
+    <td class="{{if (gte data2.cv 20) 'medium-gray'}}">{{format-as data2.selectedPercentM data2.rowconfig.decimal}}</td>
   {{/if}}
 
   {{!-- CURRENT --}}
-  <td class="cell-border-left {{if (eq data.sum 0) 'medium-gray'}} {{if (gte data.cv 20) 'medium-gray'}}">{{selectedCurrentSum}}</td>{{!-- current dataset sum --}}
+  <td class="cell-border-left {{if (eq data.sum 0) 'medium-gray'}} {{if (gte data.cv 20) 'medium-gray'}}">{{format-as data.sum data.rowconfig.decimal}}</td>{{!-- current dataset sum --}}
   {{#if reliability}}
-    <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{selectedCurrentSumM}}</td>
-    <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{selectedCurrentSumCV}}</td>
+    <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{format-as data.m data.rowconfig.decimal}}</td>
+    <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{format-as data.cv data.rowconfig.decimal}}</td>
   {{/if}}
-  <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{selectedCurrentPercent}}</td>{{!-- current dataset percent --}}
+  <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{decimal-one-place-percent data.percent}}</td>{{!-- current dataset percent --}}
   {{#if reliability}}
-    <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{data.selectedPercentM}}</td>
+    <td class="{{if (gte data.cv 20) 'medium-gray'}}">{{format-as data.selectedPercentM data.rowconfig.decimal}}</td>
   {{/if}}
 
   {{!-- DIFFERENCE --}}

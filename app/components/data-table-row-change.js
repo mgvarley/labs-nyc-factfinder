@@ -19,13 +19,13 @@ export function decimalFormat(number, decimal) { // for number >=0
     }
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
-  return '';
+  return null;
 }
 
 export function decimalFormatAll(number, decimal, isChange) { // for all numbers
   let x;
   if (isNaN(number)) {
-    return '';
+    return null;
   }
   if (decimal === 1) {
     x = number.toFixed(1);
@@ -46,7 +46,7 @@ export function decimalFormatAll(number, decimal, isChange) { // for all numbers
 export function decimalOnePlacePercent(number, isChange) {
   // number = parseFloat(number);
   if (isNaN(number)) {
-    return '';
+    return null;
   }
   let string = (number * 100).toFixed(1);
 
@@ -78,109 +78,102 @@ export default Ember.Component.extend({
     return classes.join(' ');
   },
 
-@computed('data2.sum', 'rowconfig')
+  @computed('data2.sum', 'rowconfig')
   selectedEarlySum(sum, rowconfig) {
     // sum = parseFloat(sum);
     return decimalFormat(sum, rowconfig.decimal);
   },
 
-@computed('data2.m', 'rowconfig')
+  @computed('data2.m', 'rowconfig')
   selectedEarlySumM(m, rowconfig) {
     return decimalFormat(m, rowconfig.decimal);
   },
 
-@computed('data2.cv', 'rowconfig')
+  @computed('data2.cv', 'rowconfig')
   selectedEarlySumCV(cv, rowconfig) {
     return decimalOnePlace(cv, rowconfig.decimal);
   },
 
-@computed('data2.sum', 'data2.percent')
+  @computed('data2.sum', 'data2.percent')
   selectedEarlyPercent(sum, percent) {
     // sum = parseFloat(sum);
     // percent = parseFloat(percent);
     if (sum > 0) {
-      return decimalOnePlacePercent(percent);
+      return percent;
     }
-    return '';
+    return null;
   },
 
-@computed('data2.sum', 'data2.percent_m')
+  @computed('data2.sum', 'data2.percent_m')
   selectedEarlyPercentM(sum, percent_m) {
     // sum = parseFloat(sum);
     // percent_m = parseFloat(percent_m);
     if (sum > 0) {
-      return decimalOnePlacePercent(percent_m);
+      return percent_m;
     }
-    return '';
+    return null;
   },
 
-@computed('data2.sum', 'data.sum', 'rowconfig')
+  @computed('data2.sum', 'data.sum', 'rowconfig')
   selectedCurrentSum(sum2, sum, rowconfig) {
     // sum2 = parseFloat(sum2);
     // sum = parseFloat(sum);
     if ((sum2 > 0) || (sum2 === 0)) {
       return decimalFormat(sum, rowconfig.decimal);
     }
-    return '';
+    return null;
   },
 
-@computed('data.m', 'rowconfig')
+  @computed('data.m', 'rowconfig')
   selectedCurrentSumM(m, rowconfig) {
     return decimalFormat(m, rowconfig.decimal);
   },
 
-@computed('data.cv', 'rowconfig')
+  @computed('data.cv', 'rowconfig')
   selectedCurrentSumCV(cv, rowconfig) {
     return decimalOnePlace(cv, rowconfig.decimal);
   },
 
-@computed('data2.sum', 'data.sum', 'data.percent')
+  @computed('data2.sum', 'data.sum', 'data.percent')
   selectedCurrentPercent(sum2, sum, percent) {
     // sum2 = parseFloat(sum2);
     // sum = parseFloat(sum);
     // percent = parseFloat(percent);
     if ((sum2 > 0) || (sum2 === 0)) {
       if (sum > 0) {
-        return decimalOnePlacePercent(percent);
+        return percent;
       }
-      return '';
+      return null;
     }
-    return '';
+    return null;
   },
 
-@computed('data.sum', 'data.percent_m')
+  @computed('data.sum', 'data.percent_m')
   selectedCurrentPercentM(sum, percent_m) {
     // sum = parseFloat(sum);
     // percent_m = parseFloat(percent_m);
     if (sum > 0) {
-      return decimalOnePlacePercent(percent_m);
+      return percent_m;
     }
-    return '';
+    return null;
   },
 
-@computed('data2.sum', 'data.sum', 'rowconfig')
+  @computed('data2.sum', 'data.sum', 'rowconfig')
   change(sum2, sum, rowconfig) {
     // sum2 = parseFloat(sum2);
     // sum = parseFloat(sum);
     if (isNaN(sum2) || isNaN(sum)) {
-      return '';
+      return null;
     }
     const difference = sum - sum2;
     return decimalFormatAll(difference, rowconfig.decimal, true);
   },
 
-@computed('data2.sum', 'data2.m', 'data.m', 'rowconfig')
+  @computed('data2.sum', 'data2.m', 'data.m', 'rowconfig')
   changeMOE(sum2, m2, m, rowconfig) {
-    // sum2 = parseFloat(sum2);
-    // m = parseFloat(m);
-    // m2 = parseFloat(m2);
-
-    if (isNaN(m) && !isNaN(m2)) m = 0;
-    if (!isNaN(m) && isNaN(m2)) m2 = 0;
-
     if ((sum2 > 0) || (sum2 === 0)) {
       if (isNaN(m2) || isNaN(m)) {
-        return '';
+        return null;
       }
       const x = (((m2 / 1.645) * (m2 / 1.645))
       + ((m / 1.645) * (m / 1.645)));
@@ -188,12 +181,12 @@ export default Ember.Component.extend({
         const changeM = Math.sqrt(x);
         return decimalFormat(changeM, rowconfig.decimal);
       }
-      return '';
+      return null;
     }
-    return '';
+    return null;
   },
 
-@computed('data2.sum', 'data.sum')
+  @computed('data2.sum', 'data.sum')
   changePercent(sum2, sum) {
     // sum = parseFloat(sum);
     // sum2 = parseFloat(sum2);
@@ -201,10 +194,10 @@ export default Ember.Component.extend({
       const x = (sum - sum2) / sum2;
       return decimalOnePlacePercent(x, true);
     }
-    return '';
+    return null;
   },
 
-@computed('data.sum', 'data2.sum', 'data.m', 'data2.m')
+  @computed('data.sum', 'data2.sum', 'data.m', 'data2.m')
   changePercentMOE(sum, sum2, m, m2) {
     if (sum2 > 0) {
       const moe =
@@ -220,15 +213,15 @@ export default Ember.Component.extend({
 
       return decimalOnePlacePercent(moe);
     }
-    return '';
+    return null;
   },
 
-    @computed('selectedEarlyPercent', 'selectedCurrentPercent')
+  @computed('selectedEarlyPercent', 'selectedCurrentPercent')
   changePercentagePoint(selectedEarlyPercent, selectedCurrentPercent) {
     return decimalOnePlace(selectedCurrentPercent - selectedEarlyPercent, true);
   },
 
-    @computed('selectedEarlyPercentM', 'selectedCurrentPercentM')
+  @computed('selectedEarlyPercentM', 'selectedCurrentPercentM')
   changePercentagePointMOE(selectedEarlyPercentM, selectedCurrentPercentM) {
     const divisor = 1.645;
     const sumOfSquares = (((parseFloat(selectedEarlyPercentM) / divisor) ** 2) + ((parseFloat(selectedCurrentPercentM) / divisor) ** 2));
@@ -241,17 +234,17 @@ export default Ember.Component.extend({
     return difference.toFixed(1);
   },
 
-    @computed('change', 'changeMOE')
+  @computed('change', 'changeMOE')
   changeInsignificant(change, changeMOE) {
     return differenceInsignificance(change, changeMOE);
   },
 
-    @computed('changePercent', 'changePercentMOE')
+  @computed('changePercent', 'changePercentMOE')
   changePercentInsignificant(changePercent, changePercentMOE) {
     return differenceInsignificance(changePercent, changePercentMOE);
   },
 
-    @computed('changePercentagePoint', 'changePercentagePointMOE')
+  @computed('changePercentagePoint', 'changePercentagePointMOE')
   changePercentagePointInsignificant(changePercentagePoint, changePercentagePointMOE) {
     return differenceInsignificance(changePercentagePoint, changePercentagePointMOE);
   },
