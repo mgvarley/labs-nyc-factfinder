@@ -6,10 +6,10 @@ const { service } = Ember.inject;
 export default Ember.Route.extend(Downloadable, {
   selection: service(),
 
-  model(params, { queryParams: { comparator = '0' } }) {
-    const geoids = this.get('selection.current.features').mapBy('properties.geoid');
-
-    return this.store.query('row', { geoids, comparator, type: 'demographic' })
-      .then(rows => rows.toArray());
+  model(params, { queryParams: { comparator = '0' }, params: { profile: { id: selectionId } } }) {
+    return this.store.query(
+      'row',
+      { selectionId, comparator, type: 'demographic' },
+    );
   },
 });
