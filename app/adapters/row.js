@@ -1,24 +1,21 @@
 import DS from 'ember-data';
-import carto from '../utils/carto';
-import generateProfileSQL from '../queries/profile';
-import decennialProfile from '../queries/decennial-profile';
-import Environment from '../config/environment';
 import fetch from 'fetch';
+import Environment from '../config/environment';
+
 
 const { SupportServiceHost } = Environment;
 
 export default DS.JSONAPIAdapter.extend({
   query(store, modelType, query) {
-    const { selectionId, comparator, type /*category*/ } = query;
-    // let selectionSQL;
-    // if (type === 'decennial') {
-    //   selectionSQL = decennialProfile(geoids, category, comparator);
-    // } else {
-    //   selectionSQL = generateProfileSQL(geoids, comparator, type);
-    // }
+    const { selectionId, comparator, type, category } = query;
 
-    // return carto.SQL(selectionSQL, 'json', 'post');
-    return fetch(`${SupportServiceHost}/profile/${selectionId}/${type}?compare=${comparator}`)
+    let url = `${SupportServiceHost}/profile/${selectionId}/${type}?compare=${comparator}`;
+
+    if (type === 'decennial') {
+      url = `${SupportServiceHost}/profile/${selectionId}/${type}/${category}?compare=${comparator}`;
+    }
+
+    return fetch(url)
       .then(blob => blob.json());
   },
 

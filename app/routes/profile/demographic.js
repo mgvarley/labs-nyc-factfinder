@@ -10,6 +10,8 @@ export default Ember.Route.extend(Downloadable, {
     return this.store.query(
       'row',
       { selectionId, comparator, type: 'demographic' },
+    ).then(
+      rows => rows.toArray(),
     );
   },
 });
